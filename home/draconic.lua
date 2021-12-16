@@ -67,6 +67,46 @@ local recipes = {
             {"draconicevolution:wyvern_core", 1},
         },
     },
+
+    powerpot_mk1 = {
+        name = "PowerPot MK1",
+        core = {"botanypots:hopper_botany_pot", 1},
+        injectors = {
+            {"ftbjarmod:cast_iron_block", 4},
+            {"minecraft:emerald_block", 2},
+            {"mekanism:basic_energy_cube", 1},
+        },
+    },
+
+    powerpot_mk2 = {
+        name = "PowerPot MK2",
+        core = {"ftb-power-pots:power_pot_mk1", 1},
+        injectors = {
+            {"ftbjarmod:cast_iron_block", 4},
+            {"botania:blaze_block", 2},
+            {"mekanism:advanced_energy_cube", 1},
+        },
+    },
+
+    powerpot_mk3 = {
+        name = "PowerPot MK3",
+        core = {"ftb-power-pots:power_pot_mk2", 1},
+        injectors = {
+            {"ftbjarmod:cast_iron_block", 4},
+            {"botania:mana_diamond_block", 2},
+            {"mekanism:elite_energy_cube", 1},
+        },
+    },
+
+    powerpot_mk4 = {
+        name = "PowerPot MK4",
+        core = {"ftb-power-pots:power_pot_mk3", 1},
+        injectors = {
+            {"ftbjarmod:cast_iron_block", 4},
+            {"draconicevolution:draconium_block", 2},
+            {"mekanism:ultimate_energy_cube", 1},
+        },
+    },
 }
 
 local craftInitItems = {
