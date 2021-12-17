@@ -259,6 +259,7 @@ function loop()
     craftRecipe(recipe)
 end
 
+print("Welcome to Draconic Auto-Crafter")
 while true do
     loop()
     os.sleep(1)
