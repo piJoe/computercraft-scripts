@@ -1,1 +1,1 @@
-shell.run("/home/draconic.lua")
+shell.run("/programs/draconic.lua")
