@@ -2,10 +2,6 @@ local rsI = peripheral.wrap("right")
 local detector = peripheral.wrap("bottom")
 
 local scanRange = 5
-local allowedPlayers = {
-    ["madGoldfish"] = true,
-    ["Waldro"] = true
-}
 
 function doorState(open)
     rs.setOutput("top", open)
