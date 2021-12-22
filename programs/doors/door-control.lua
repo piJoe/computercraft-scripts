@@ -1,22 +1,21 @@
 local rsI = peripheral.wrap("right")
 local detector = peripheral.wrap("bottom")
 
-local scanRange = 5
+local positions = {
+    {x = 211, y = 113, z = 4706},
+    {x = 205, y = 115, z = 4704},
+}
 
 function doorState(open)
     rs.setOutput("top", open)
     rsI.setOutput("top", open)
 end
 
-function detectPlayer(range)
-    local players = detector.getPlayersInRange(range)
-    for _, player in pairs(players) do
-        return true
-    end
-    return false
+function detectPlayer(posA, posB)
+    return detector.isPlayersInCoords(posA, posB)
 end
 
 while true do
-    local playerNear = detectPlayer(scanRange)
+    local playerNear = detectPlayer(positions[1], positions[2])
     doorState(playerNear)
 end
