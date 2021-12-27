@@ -5,8 +5,6 @@ function Character.create()
 	local self = {}
 	setmetatable(self, Character)
 
-	self.textColor = colors.white
-	self.backgroundColor = colors.black
 	self.pixelMode = false
 	self.character = " "
 	self.pixel = {{false, false, false},{false, false, false}}
@@ -36,21 +34,29 @@ function Character:update()
 	end
 end
 
-function Character:draw()
+function Character:draw(textColor, backgroundColor)
 	if not self.invert then
-		term.setBackgroundColor(self.backgroundColor)
-		term.setTextColor(self.textColor)
+		term.setBackgroundColor(backgroundColor)
+		term.setTextColor(textColor)
 	else
-		term.setBackgroundColor(self.textColor)
-		term.setTextColor(self.backgroundColor)
+		term.setBackgroundColor(textColor)
+		term.setTextColor(backgroundColor)
 	end
 	term.write(self.character)
+end
+
+function Character:getBlit(textColor, backgroundColor)
+    if not self.invert then
+        return self.character, colors.toBlit(textColor), colors.toBlit(backgroundColor)
+    end
+
+    return self.character, colors.toBlit(backgroundColor), colors.toBlit(textColor)
 end
 
 local Canvas = {}
 Canvas.__index = Canvas
 
-function Canvas.create(x, y, width, height)
+function Canvas.create(x, y, width, height, textColor, backgroundColor)
 	local self = {}
 	setmetatable (self, {__index=Canvas})
 
@@ -59,6 +65,11 @@ function Canvas.create(x, y, width, height)
 	self.character = {}
 	local w, h = term.getSize()
 	self:setSize(width or (w - self.x + 1), height or (h - self.y + 1))
+
+	self.textColor = textColor or colors.white
+	self.backgroundColor = backgroundColor or colors.black
+
+	self.window = window.create(term.current(), self.x, self.y, self.__width, self.__height)
 
 	return self
 end
@@ -74,12 +85,23 @@ function Canvas:getSize()
 end
 
 function Canvas:draw()
+    self.window.setVisible(false)
+    local originalTerm = term.redirect(self.window)
 	for j=1,(self.__height) do
-		term.setCursorPos(self.x, j+self.y-1)
+		term.setCursorPos(1, j)
+		local blitChars = ""
+		local blitTextColor = ""
+		local blitBGColor = ""
 		for i=1,(self.__width) do
-			self.character[i][j]:draw()
+		    local char, textCol, bgCol = self.character[i][j]:getBlit(self.textColor, self.backgroundColor)
+			blitChars = blitChars .. char
+			blitTextColor = blitTextColor .. textCol
+			blitBGColor = blitBGColor .. bgCol
 		end
+		term.blit(blitChars, blitTextColor, blitBGColor)
 	end
+    self.window.setVisible(true)
+    term.redirect(originalTerm)
 end
 
 function Canvas:flush()
