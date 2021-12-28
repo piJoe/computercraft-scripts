@@ -29,7 +29,7 @@ function Graph.create(min, max, x,y, width, height, textColor, backgroundColor)
 	self.canvas = Canvas.create(self.x, self.y, self.width, self.height, textColor or colors.white, backgroundColor or colors.black)
 	self.pixelWidth = self.width*2
 	self.pixelHeight = self.height*3
-	self.style = {filled = false, markings = true}
+	self.style = {filled = false, markings = false}
 
     -- setup data point table
     self.minValue = min or 0
