@@ -107,6 +107,35 @@ local recipes = {
             {"mekanism:ultimate_energy_cube", 1},
         },
     },
+
+    wyvern_capacitor = {
+        name = "Wyvern Capacitor",
+        core = {"draconicevolution:wyvern_core", 1},
+        injectors = {
+            {"draconicevolution:draconium_ingot", 4},
+            {"draconicevolution:wyvern_energy_core", 4},
+        },
+    },
+
+    draconic_capacitor = {
+        name = "Draconic Capacitor",
+        core = {"draconicevolution:awakened_core", 1},
+        injectors = {
+            {"draconicevolution:awakened_draconium_ingot", 4},
+            {"draconicevolution:draconic_energy_core", 3},
+            {"draconicevolution:wyvern_capacitor", 1},
+        },
+    },
+
+    chaotic_capacitor = {
+        name = "Chaotic Capacitor",
+        core = {"draconicevolution:draconic_capacitor", 1},
+        injectors = {
+            {"draconicevolution:awakened_draconium_ingot", 4},
+            {"draconicevolution:chaotic_energy_core", 3},
+            {"draconicevolution:chaotic_core", 1},
+        },
+    },
 }
 
 local craftInitItems = {
@@ -126,6 +155,10 @@ local craftInitItems = {
     ["minecraft:light_gray_carpet"] = "wyvern_injector",
     ["minecraft:cyan_carpet"] = "draconic_injector",
     ["minecraft:purple_carpet"] = "chaotic_injector",
+
+    ["minecraft:blue_carpet"] = "wyvern_capacitor",
+    ["minecraft:brown_carpet"] = "draconic_capacitor",
+    ["minecraft:green_carpet"] = "chaotic_capacitor",
 }
 
 function getNextCraftingRecipe()
@@ -235,7 +268,7 @@ function waitForResult()
     repeat
         result = coreInv.getItemDetail(coreResultSlot)
     until result ~= nil
-    os.sleep(1)
+    os.sleep(0.1)
 end
 
 function craftRecipe(recipe)
@@ -254,13 +287,15 @@ end
 function loop()
     local recipe = getNextCraftingRecipe()
     if recipe == nil then
-        return
+        return false
     end
     craftRecipe(recipe)
+    return true
 end
 
 print("Welcome to Draconic Auto-Crafter")
 while true do
-    loop()
-    os.sleep(1)
+    if loop() == false then
+        os.sleep(1)
+    end
 end
